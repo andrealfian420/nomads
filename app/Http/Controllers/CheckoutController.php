@@ -29,11 +29,13 @@ class CheckoutController extends Controller
 
         $transaction = Transaction::create([
             'travel_packages_id' => $id,
-            'user_id' => Auth::user()->id,
+            'users_id' => Auth::user()->id,
             'additional_visa' => 0,
             'transaction_total' => $travel_package->price,
             'transaction_status' => 'IN_CART'
         ]);
+
+        // $transaction_detail = TransactionDetail::with(['user'])->findOrFail($id);
 
         TransactionDetail::create([
             'transactions_id' => $transaction->id,
