@@ -115,7 +115,8 @@
 
                     <div class="join-container">
                         @auth
-                        <form action="" method="post">
+                        <form action="{{route('checkout_process',$item->id)}}" method="post">
+                            @csrf
                             <button type="submit" class="btn btn-block btn-join-now mt-3 py-2">
                                 Join Now!
                             </button>

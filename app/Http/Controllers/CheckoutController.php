@@ -52,7 +52,7 @@ class CheckoutController extends Controller
     {
         $item = TransactionDetail::findOrFail($detail_id);
 
-        $transaction = Transaction::with(['details', 'travel_package'])->findOrFail($item->transaction_id);
+        $transaction = Transaction::with(['details', 'travel_package'])->findOrFail($item->transactions_id);
 
         // if user removing the visa
         if ($item->is_visa) {
@@ -66,19 +66,19 @@ class CheckoutController extends Controller
         $transaction->save();
         $item->delete();
 
-        return redirect()->route('checkout', $item->transaction_id);
+        return redirect()->route('checkout', $item->transactions_id);
     }
 
     public function create(Request $request, $id)
     {
         $request->validate([
-            'username' => 'required|string|exist:user,username',
+            'username' => 'required|string|exists:users,username',
             'is_visa' => 'required|boolean',
             'doe_passport' => 'required'
         ]);
 
         $data = $request->all();
-        $data['transaction_id'] = $id;
+        $data['transactions_id'] = $id;
 
         // Insert into db
         TransactionDetail::create($data);
